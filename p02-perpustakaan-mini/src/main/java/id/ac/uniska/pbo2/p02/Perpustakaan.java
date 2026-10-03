@@ -57,4 +57,17 @@ return jumlah;
 public List<Koleksi> getDaftarKoleksi() {
 return List.copyOf(daftarKoleksi);
 }
+public List<Koleksi> cariJudul(String kataKunci) {
+    List<Koleksi> hasil = new ArrayList<>();
+
+    String kataKunciLower = kataKunci.toLowerCase();
+
+    for (Koleksi k : daftarKoleksi) {
+        if (k.getJudul().toLowerCase().contains(kataKunciLower)) {
+            hasil.add(k);
+        }
+    }
+
+    return hasil;
+}
 }
