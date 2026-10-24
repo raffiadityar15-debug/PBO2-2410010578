@@ -73,11 +73,17 @@ public class FormAnggotaPerpustakaan extends javax.swing.JFrame {
         alamatTextArea = new javax.swing.JTextArea();
         persetujuanCheckBox = new javax.swing.JCheckBox();
         jScrollPane1 = new javax.swing.JScrollPane();
+        digitNpmLabel = new javax.swing.JLabel();
         tombolPanel = new javax.swing.JPanel();
         batalButton = new javax.swing.JButton();
         daftarButton = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
 
         headerPanel.setLayout(new javax.swing.BoxLayout(headerPanel, javax.swing.BoxLayout.Y_AXIS));
 
@@ -98,6 +104,11 @@ public class FormAnggotaPerpustakaan extends javax.swing.JFrame {
         formPanel.add(jLabel1, gridBagConstraints);
 
         npmField.addActionListener(this::npmFieldActionPerformed);
+        npmField.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                npmFieldKeyReleased(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 0;
@@ -210,6 +221,7 @@ public class FormAnggotaPerpustakaan extends javax.swing.JFrame {
         formPanel.add(jScrollPane2, gridBagConstraints);
 
         persetujuanCheckBox.setText("Setuju");
+        persetujuanCheckBox.addItemListener(this::persetujuanCheckBoxItemStateChanged);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 32;
@@ -218,6 +230,9 @@ public class FormAnggotaPerpustakaan extends javax.swing.JFrame {
         gridBagConstraints.gridx = 4;
         gridBagConstraints.gridy = 0;
         formPanel.add(jScrollPane1, gridBagConstraints);
+
+        digitNpmLabel.setText("0 dari 10 digit");
+        formPanel.add(digitNpmLabel, new java.awt.GridBagConstraints());
 
         getContentPane().add(formPanel, java.awt.BorderLayout.CENTER);
 
@@ -228,6 +243,7 @@ public class FormAnggotaPerpustakaan extends javax.swing.JFrame {
         tombolPanel.add(batalButton);
 
         daftarButton.setText("Daftar");
+        daftarButton.setEnabled(false);
         daftarButton.addActionListener(this::daftarButtonActionPerformed);
         tombolPanel.add(daftarButton);
 
@@ -348,6 +364,30 @@ if (pilihan == javax.swing.JOptionPane.YES_OPTION) {
 }
     }//GEN-LAST:event_batalButtonActionPerformed
 
+    private void persetujuanCheckBoxItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_persetujuanCheckBoxItemStateChanged
+        daftarButton.setEnabled(persetujuanCheckBox.isSelected());
+    }//GEN-LAST:event_persetujuanCheckBoxItemStateChanged
+
+    private void npmFieldKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_npmFieldKeyReleased
+        String npm = npmField.getText().trim()
+        .replaceAll("\\D", "");
+
+        digitNpmLabel.setText(npm.length() + " dari 10 digit");
+    }//GEN-LAST:event_npmFieldKeyReleased
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        int jawab = javax.swing.JOptionPane.showConfirmDialog(
+            this,
+            "Yakin ingin keluar dari aplikasi?",
+            "Konfirmasi Keluar",
+            javax.swing.JOptionPane.YES_NO_OPTION
+    );
+
+    if (jawab == javax.swing.JOptionPane.YES_OPTION) {
+        dispose();
+    }
+    }//GEN-LAST:event_formWindowClosing
+
     /**
      * @param args the command line arguments
      */
@@ -364,6 +404,7 @@ if (pilihan == javax.swing.JOptionPane.YES_OPTION) {
     private javax.swing.JButton batalButton;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JButton daftarButton;
+    private javax.swing.JLabel digitNpmLabel;
     private javax.swing.JRadioButton dosenRadiobutton;
     private javax.swing.JTextField emailField;
     private javax.swing.JPanel formPanel;
