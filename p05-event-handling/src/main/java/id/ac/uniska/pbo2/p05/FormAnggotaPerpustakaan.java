@@ -6,7 +6,8 @@ package id.ac.uniska.pbo2.p05;
 
 /**
  *
- * @author RICKY ABDILLAH
+ * @author User
+ * 
  */
 public class FormAnggotaPerpustakaan extends javax.swing.JFrame {
     
