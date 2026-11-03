@@ -1,5 +1,5 @@
 // Nama: Raffi Aditya Rahman NPM : 2410010578
-package com.mycompany.p08.uts.b;
+package id.ac.uniska.pbo2.uts;
 
 public enum Kategori {
     ALAT_TULIS("Alat Tulis"), MAKANAN("Makanan"), MINUMAN("Minuman"), LAINNYA("Lainnya");

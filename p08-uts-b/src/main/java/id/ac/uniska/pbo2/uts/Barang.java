@@ -1,5 +1,5 @@
-// Nama: (namamu) | NPM: (npmmu)
-package com.mycompany.p08.uts.b;
+// Nama: Raffi Aditya Rahman  NPM: 2410010578
+package id.ac.uniska.pbo2.uts;
 
 public class Barang {
     private final String nama;
