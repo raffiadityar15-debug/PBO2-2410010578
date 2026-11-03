@@ -1,4 +1,4 @@
-// Nama: Raffi Aditya Rahman  NPM: 2410010578
+// Nama: Raffi Aditya Rahman  NPM: 2410010578 
 package id.ac.uniska.pbo2.uts;
 
 import java.util.ArrayList;
