@@ -10,15 +10,38 @@ package id.ac.uniska.pbo2.uts;
  * @author ASUS
  */
 public class DaftarBelanjaFrame extends javax.swing.JFrame {
-    
-    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(DaftarBelanjaFrame.class.getName());
 
-    /**
-     * Creates new form DaftarBelanjaFrame
-     */
-    public DaftarBelanjaFrame() {
-        initComponents();
-    }
+    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(DaftarBelanjaFrame.class.getName());
+    private final BarangTableModel model = new BarangTableModel();
+
+public DaftarBelanjaFrame() {
+    initComponents();
+    tblBarang.setModel(model);
+    lblPesan.setForeground(java.awt.Color.RED);
+    txtHarga.putClientProperty("JTextField.placeholderText", "Tanpa titik, contoh 15000");
+    getRootPane().setDefaultButton(btnTambah);
+    perbaruiRingkasan();
+}
+
+private void tampilkanError(String pesan, javax.swing.JComponent isian) {
+    lblPesan.setText(pesan);
+    isian.requestFocusInWindow();
+}
+
+private void perbaruiRingkasan() {
+    lblRingkasan.setText("Total " + BarangTableModel.formatRupiah(model.getTotal())
+            + ", diskon " + BarangTableModel.formatRupiah(model.getDiskon())
+            + ", bayar " + BarangTableModel.formatRupiah(model.getBayar()));
+}
+
+private void resetForm() {
+    txtNama.setText("");
+    txtHarga.setText("");
+    cmbKategori.setSelectedIndex(0);
+    spnJumlah.setValue(1);
+    lblPesan.setText("");
+    txtNama.requestFocusInWindow();
+}
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -30,43 +53,41 @@ public class DaftarBelanjaFrame extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        txtNama = new javax.swing.JLabel();
-        cmbKategori = new javax.swing.JLabel();
-        txtHarga = new javax.swing.JLabel();
-        spnJumlah = new javax.swing.JLabel();
+        lblNama = new javax.swing.JLabel();
+        lblKategori = new javax.swing.JLabel();
+        lblHarga = new javax.swing.JLabel();
+        lblJumlah = new javax.swing.JLabel();
         btnTambah = new javax.swing.JButton();
-        lblPesan = new javax.swing.JTextField();
-        jComboBox1 = new javax.swing.JComboBox<>();
-        jTextField2 = new javax.swing.JTextField();
-        jSpinner1 = new javax.swing.JSpinner();
+        txtNama = new javax.swing.JTextField();
+        cmbKategori = new javax.swing.JComboBox<>();
+        txtHarga = new javax.swing.JTextField();
+        spnJumlah = new javax.swing.JSpinner();
+        lblPesan = new javax.swing.JLabel();
         btnBersihkan = new javax.swing.JButton();
-        lblRingkasan = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
-        jLabel1 = new javax.swing.JLabel();
+        lblRingkasan = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tblBarang = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Daftar Belanja");
 
-        txtNama.setText("Nama Barang");
+        lblNama.setText("Nama Barang");
 
-        cmbKategori.setText("Kategori");
+        lblKategori.setText("Kategori");
 
-        txtHarga.setText("Harga (Rp)");
+        lblHarga.setText("Harga (Rp)");
 
-        spnJumlah.setText("Jumlah");
+        lblJumlah.setText("Jumlah");
 
         btnTambah.setText("Tambah");
+        btnTambah.addActionListener(this::btnTambahActionPerformed);
 
-        lblPesan.addActionListener(this::lblPesanActionPerformed);
+        cmbKategori.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Alat Tulis", "Makanan", "Minuman", "Lainnya" }));
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Alat Tulis", "Makanan", "Minuman", "Lainnya" }));
-        jComboBox1.addActionListener(this::jComboBox1ActionPerformed);
-
-        jTextField2.setText("Tanpa titik, contoh 15000");
-
-        jSpinner1.setModel(new javax.swing.SpinnerNumberModel(1, 1, 99, 1));
+        spnJumlah.setModel(new javax.swing.SpinnerNumberModel(1, 1, 99, 1));
 
         btnBersihkan.setText("Bersihkan");
+        btnBersihkan.addActionListener(this::btnBersihkanActionPerformed);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -75,25 +96,25 @@ public class DaftarBelanjaFrame extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(6, 6, 6)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtNama)
-                            .addComponent(cmbKategori)
-                            .addComponent(txtHarga)
-                            .addComponent(spnJumlah))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblPesan, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(btnTambah)
-                        .addGap(6, 6, 6)
-                        .addComponent(btnBersihkan))))
+                    .addComponent(lblNama)
+                    .addComponent(lblKategori)
+                    .addComponent(lblHarga)
+                    .addComponent(lblJumlah))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(txtNama, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cmbKategori, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtHarga, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(spnJumlah, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblPesan)))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(btnTambah)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnBersihkan))
         );
 
-        jPanel1Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jComboBox1, jSpinner1, jTextField2, lblPesan});
+        jPanel1Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {cmbKategori, spnJumlah, txtHarga, txtNama});
 
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -102,35 +123,39 @@ public class DaftarBelanjaFrame extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(3, 3, 3)
-                        .addComponent(txtNama))
-                    .addComponent(lblPesan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(lblNama))
+                    .addComponent(txtNama, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(6, 6, 6)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(3, 3, 3)
-                        .addComponent(cmbKategori))
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(lblKategori))
+                    .addComponent(cmbKategori, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(6, 6, 6)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(3, 3, 3)
-                        .addComponent(txtHarga))
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(lblHarga))
+                    .addComponent(txtHarga, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(6, 6, 6)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(3, 3, 3)
-                        .addComponent(spnJumlah))
-                    .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(6, 6, 6)
+                        .addComponent(lblJumlah))
+                    .addComponent(spnJumlah, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lblPesan)
+                .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnTambah)
-                    .addComponent(btnBersihkan)))
+                    .addComponent(btnBersihkan))
+                .addContainerGap(284, Short.MAX_VALUE))
         );
 
         getContentPane().add(jPanel1, java.awt.BorderLayout.LINE_START);
+        getContentPane().add(lblRingkasan, java.awt.BorderLayout.PAGE_END);
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tblBarang.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -141,63 +166,66 @@ public class DaftarBelanjaFrame extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        lblRingkasan.setViewportView(jTable1);
+        jScrollPane1.setViewportView(tblBarang);
 
-        getContentPane().add(lblRingkasan, java.awt.BorderLayout.CENTER);
-
-        jLabel1.setText("Total Rp0, diskon Rp0, bayar Rp0");
-        getContentPane().add(jLabel1, java.awt.BorderLayout.PAGE_END);
+        getContentPane().add(jScrollPane1, java.awt.BorderLayout.CENTER);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBox1ActionPerformed
+    private void btnTambahActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTambahActionPerformed
+        String nama = txtNama.getText().trim();
+    if (nama.isEmpty()) {
+        tampilkanError("Nama barang wajib diisi", txtNama);
+        return;
+    }
+    if (model.sudahAda(nama)) {
+        tampilkanError("Barang " + nama + " sudah ada di daftar", txtNama);
+        return;
+    }
+    String teksHarga = txtHarga.getText().trim();
+    if (!teksHarga.matches("\\d{1,8}")
+            || Long.parseLong(teksHarga) < 1
+            || Long.parseLong(teksHarga) > 10000000) {
+        tampilkanError("Harga harus angka 1 sampai 10000000", txtHarga);
+        return;
+    }
+    Kategori kategori = Kategori.values()[cmbKategori.getSelectedIndex()];
+    int jumlah = (int) spnJumlah.getValue();
 
-    private void lblPesanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lblPesanActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_lblPesanActionPerformed
+    model.tambah(new Barang(nama, kategori, Long.parseLong(teksHarga), jumlah));
+    perbaruiRingkasan();
+    resetForm();
+    }//GEN-LAST:event_btnTambahActionPerformed
+
+    private void btnBersihkanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBersihkanActionPerformed
+        resetForm();
+    }//GEN-LAST:event_btnBersihkanActionPerformed
 
     /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ReflectiveOperationException | javax.swing.UnsupportedLookAndFeelException ex) {
-            logger.log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
+        com.formdev.flatlaf.FlatLightLaf.setup();
         java.awt.EventQueue.invokeLater(() -> new DaftarBelanjaFrame().setVisible(true));
     }
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBersihkan;
     private javax.swing.JButton btnTambah;
-    private javax.swing.JLabel cmbKategori;
-    private javax.swing.JComboBox<String> jComboBox1;
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JComboBox<String> cmbKategori;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JSpinner jSpinner1;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField lblPesan;
-    private javax.swing.JScrollPane lblRingkasan;
-    private javax.swing.JLabel spnJumlah;
-    private javax.swing.JLabel txtHarga;
-    private javax.swing.JLabel txtNama;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel lblHarga;
+    private javax.swing.JLabel lblJumlah;
+    private javax.swing.JLabel lblKategori;
+    private javax.swing.JLabel lblNama;
+    private javax.swing.JLabel lblPesan;
+    private javax.swing.JLabel lblRingkasan;
+    private javax.swing.JSpinner spnJumlah;
+    private javax.swing.JTable tblBarang;
+    private javax.swing.JTextField txtHarga;
+    private javax.swing.JTextField txtNama;
     // End of variables declaration//GEN-END:variables
 }
